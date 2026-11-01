@@ -16,3 +16,12 @@ src-tauri/resources/extension/*
 src-tauri/gen/
 
 release-assets/
+
+.agents/
+.codex/
+.claude/
+.impeccable/
+DESIGN.md
+PRODUCT.md
+AGENTS.md
+design/logo-concepts/
