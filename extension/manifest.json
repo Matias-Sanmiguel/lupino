@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Lupino · Captura de Teams",
+  "version": "0.2.0",
+  "description": "Guardá mensajes y archivos de tus materias en tu biblioteca local de Lupino.",
+  "permissions": ["activeTab", "scripting", "nativeMessaging", "storage", "alarms"],
+  "optional_host_permissions": ["https://*.sharepoint.com/*"],
+  "action": { "default_popup": "popup.html", "default_title": "Guardar en Lupino" },
+  "background": { "service_worker": "background.js" }
+}

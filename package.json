@@ -1,0 +1,42 @@
+{
+  "name": "lupino",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build && npm run build:agent && npm run build:extension",
+    "build:agent": "tsc -p agent/tsconfig.json",
+    "build:extension": "node scripts/build-extension.mjs",
+    "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p agent/tsconfig.json --noEmit && tsc -p extension/tsconfig.json",
+    "test": "vitest run",
+    "tauri": "tauri",
+    "desktop": "tauri dev",
+    "package": "node scripts/prepare-runtime.mjs && tauri build"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "0.3.316",
+    "@cursor/sdk": "1.2.0",
+    "@tauri-apps/api": "2.11.1",
+    "@tauri-apps/plugin-dialog": "2.7.3",
+    "@tauri-apps/plugin-opener": "2.5.5",
+    "lucide-svelte": "^0.468.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@openai/codex": "0.166.0",
+    "@sveltejs/vite-plugin-svelte": "^5.1.0",
+    "@tauri-apps/cli": "2.12.4",
+    "@types/chrome": "^0.0.287",
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.25.0",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-svelte": "^3.5.2",
+    "svelte": "5.57.3",
+    "svelte-check": "^4.3.0",
+    "typescript": "~5.8.3",
+    "vite": "^6.4.0",
+    "vitest": "^3.2.0"
+  }
+}

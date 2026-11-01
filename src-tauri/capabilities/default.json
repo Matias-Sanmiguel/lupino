@@ -1,0 +1,1 @@
+{"identifier":"desktop","description":"Lupino desktop window","windows":["main"],"permissions":["core:default","dialog:allow-open",{"identifier":"opener:allow-open-url","allow":[{"url":"https://*"}]}]}

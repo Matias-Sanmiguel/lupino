@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        width: 390px;
+        margin: 0;
+        padding: 24px;
+        font:
+          14px/1.5 system-ui,
+          sans-serif;
+        color: #26384b;
+        background: #fbfcfe;
+      }
+      h1 {
+        font-size: 23px;
+        margin: 0;
+        color: #6c54a3;
+      }
+      h2 {
+        font-size: 14px;
+        margin: 18px 0 8px;
+      }
+      p {
+        color: #687b8e;
+        font-size: 12px;
+      }
+      label {
+        display: block;
+        margin: 16px 0 6px;
+        font-weight: 600;
+      }
+      input[type='text'] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #d6dfe8;
+        border-radius: 7px;
+        font: inherit;
+      }
+      button {
+        display: block;
+        width: 100%;
+        padding: 11px;
+        margin-top: 9px;
+        border: 1px solid #d6dfe8;
+        border-radius: 7px;
+        background: white;
+        color: #26384b;
+        font: inherit;
+        cursor: pointer;
+      }
+      button.primary {
+        background: #6c54a3;
+        color: white;
+        border-color: #6c54a3;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: wait;
+      }
+      #status {
+        padding: 10px;
+        background: #edf2f7;
+        border-radius: 6px;
+        white-space: pre-wrap;
+      }
+      #status.error {
+        color: #a33e3e;
+        background: #fff0ee;
+      }
+      .divider {
+        border-top: 1px solid #e2e8ef;
+        margin-top: 19px;
+      }
+      input[type='file'] {
+        max-width: 100%;
+        font-size: 12px;
+      }
+      footer {
+        font-size: 11px;
+        color: #687b8e;
+        margin-top: 18px;
+      }
+      *:focus-visible {
+        outline: 3px solid #bbabdc;
+        outline-offset: 2px;
+      }
+      body {
+        max-height: 600px;
+        overflow-y: auto;
+      }
+      .sync-folder {
+        padding: 12px 0;
+        border-top: 1px solid #d6dfe8;
+      }
+      .folder-path {
+        overflow-wrap: anywhere;
+      }
+      .sync-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .sync-actions button {
+        font-size: 12px;
+        padding: 7px;
+        margin: 0;
+      }
+      details p {
+        white-space: pre-wrap;
+      }
+      .error {
+        color: #a33e3e;
+      }
+      #folder-notice:empty {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lupino</h1>
+    <p>Guardá lo que necesitás para estudiar.</p>
+    <label for="subject">Materia</label
+    ><input id="subject" type="text" maxlength="256" placeholder="Ej. Álgebra" /><button
+      id="capture"
+      class="primary"
+    >
+      Guardar mensajes cargados</button
+    ><button id="selection">Guardar selección</button
+    ><button id="observe">Seguir capturando este canal</button>
+    <p>
+      Se captura sólo el contenido cargado en Teams web. Recorré el historial para guardar más
+      mensajes.
+    </p>
+    <div class="divider"></div>
+    <h2>Materiales de clase · automático</h2>
+    <p id="folder-location">Buscando la carpeta abierta…</p>
+    <button id="link-folder" class="primary" disabled>Sincronizar esta carpeta</button>
+    <p>
+      Incluye subcarpetas. Revisa novedades cada 15 minutos con Brave abierto; después podés cerrar
+      la pestaña de Teams.
+    </p>
+    <p id="folder-notice" role="status"></p>
+    <div id="folder-list"></div>
+    <p>
+      «Enviados» significa recibidos por Lupino. Abrí la app para indexarlos. Desvincular conserva
+      tu biblioteca.
+    </p>
+    <div class="divider"></div>
+    <h2>Importar un archivo descargado</h2>
+    <input id="file" type="file" accept=".pdf,.docx,.pptx,.txt,.md" />
+    <p>Hasta 20 MB. Los enlaces a adjuntos no incluyen su contenido.</p>
+    <p id="status" role="status">Conectando con Lupino…</p>
+    <footer>
+      Datos guardados en tu computadora. La sesión de Microsoft queda en el navegador. Sólo se
+      sincronizan las carpetas que vinculás.
+    </footer>
+    <script src="popup.js"></script>
+  </body>
+</html>
