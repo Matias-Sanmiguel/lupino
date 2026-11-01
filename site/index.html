@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lupino — encontrá tu ritmo de estudio</title>
+  <meta name="description" content="Tus documentos, preguntas y fechas de la facu, en un solo lugar. Descargá Lupino para Windows, macOS y Linux.">
+  <meta name="theme-color" content="#f3f1eb">
+  <meta property="og:title" content="Lupino — encontrá tu ritmo de estudio">
+  <meta property="og:description" content="Apuntes que podés consultar. Respuestas con fuentes. Fechas que podés organizar.">
+  <meta property="og:image" content="https://lupino-app.pages.dev/assets/share.png">
+  <meta property="og:url" content="https://lupino-app.pages.dev/">
+  <link rel="icon" href="assets/favicon.ico"><link rel="stylesheet" href="style.css">
+  <link rel="preload" href="assets/DMSans.ttf" as="font" type="font/ttf" crossorigin>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#contenido">Ir al contenido</a>
+  <header class="header">
+    <a class="brand" href="#" aria-label="Lupino, inicio"><svg viewBox="32 24 192 192" aria-hidden="true"><path d="M48 40H104V128L80 152H208V208H48Z"/></svg><span>Lupino</span></a>
+    <nav aria-label="Principal"><a href="#la-app">La app</a><a href="#descargar">Descargar</a><a href="https://github.com/Matias-Sanmiguel/lupino" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="contenido">
+    <section class="hero" aria-labelledby="hero-title">
+      <canvas id="resonance" aria-hidden="true"></canvas>
+      <div class="hero-content">
+        <h1 id="hero-title">Cuando todo se conecta,<br>estudiar se vuelve más claro.</h1>
+        <p>Tu material de la facu, tus preguntas y tus próximas fechas.<br class="desktop-break"> Un espacio para encontrar tu ritmo.</p>
+        <a class="button primary" href="#descargar">Descargar Lupino <span aria-hidden="true">↓</span></a>
+        <button id="shuffle" class="pattern-button" type="button">Cambiar el ritmo<span class="blue-dot" aria-hidden="true"></span></button>
+        <span class="sr-only" id="pattern-status" role="status"></span>
+      </div>
+      <div class="hero-footer"><span>Hecho para la facu.</span><a href="#la-app">Conocé Lupino <span aria-hidden="true">↓</span></a><span>Windows · macOS · Linux</span></div>
+    </section>
+    <section id="la-app" class="product section" aria-labelledby="product-title">
+      <div class="section-intro"><h2 id="product-title">Menos buscar.<br>Más entender.</h2><p>Ese PDF, el mensaje del profe, la fecha del parcial. Reuní lo que necesitás para estudiar y volvé a encontrarlo cuando haga falta.</p></div>
+      <figure class="app-figure"><img src="assets/app-preview.png" width="1280" height="811" loading="lazy" alt="Biblioteca de Lupino con material de ejemplo organizado por materia"><figcaption>La app de escritorio. Demostración con datos de ejemplo.</figcaption></figure>
+      <div class="feature-list">
+        <article><h3>Tu material, a mano.</h3><p>Importá PDF, documentos y presentaciones. Buscá por tema, frase o materia. La extensión también trae documentos de tus carpetas de Teams.</p></article>
+        <article><h3>Preguntá. Mirá la fuente.</h3><p>Usá tu proveedor de IA para consultar los apuntes. Las citas te llevan al fragmento original para que puedas comprobar la respuesta.</p></article>
+        <article><h3>Una fecha. Un lugar.</h3><p>Revisá entregas y exámenes en la agenda. Corregí las fechas detectadas y llevá las confirmadas a Google Calendar.</p></article>
+      </div>
+    </section>
+    <section id="descargar" class="downloads section" aria-labelledby="download-title">
+      <div class="section-intro"><h2 id="download-title">Listo para<br>tu escritorio.</h2><div><p>Descargá, instalá e importá tu primer archivo. Los runtimes ya están incluidos.</p><p class="muted">Versión 0.1.1 · Beta pública · Gratis</p></div></div>
+      <div class="download-grid">
+        <article data-platform="windows"><h3>Windows</h3><p>Instalador para equipos de 64 bits.</p><a class="button secondary download-link" data-asset="Lupino-windows-x64.exe" href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">Ver instaladores <span aria-hidden="true">↗</span></a><span class="asset-status">Instalador .exe</span></article>
+        <article data-platform="mac"><h3>macOS</h3><p>Elegí el procesador de tu Mac.</p><a class="button secondary download-link" data-asset="Lupino-macos-arm64.dmg" href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">Apple Silicon <span aria-hidden="true">↗</span></a><a class="small-link download-link" data-asset="Lupino-macos-intel.dmg" href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">Mac con Intel ↗</a><span class="asset-status">Archivo .dmg</span></article>
+        <article data-platform="linux"><h3>Linux</h3><p>AppImage o paquete para Ubuntu/Debian.</p><a class="button secondary download-link" data-asset="Lupino-linux-x64.AppImage" href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">AppImage <span aria-hidden="true">↗</span></a><a class="small-link download-link" data-asset="Lupino-linux-x64.deb" href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">Ubuntu / Debian .deb ↗</a><span class="asset-status">Equipos de 64 bits</span></article>
+      </div>
+      <p id="release-status" class="muted release-status" role="status">Los instaladores y sus sumas SHA-256 están en <a href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">GitHub Releases</a>.</p>
+      <div class="install-guide"><h3>¿Primera vez instalando?</h3><details><summary>Windows</summary><p>Abrí el archivo .exe y seguí el asistente. Esta beta no tiene firma comercial: si Windows muestra SmartScreen, podés revisar el origen y usar «Más información → Ejecutar de todas formas» para instalar esta versión.</p></details><details><summary>macOS</summary><p>En «Acerca de esta Mac» podés ver si tu equipo usa un chip Apple o Intel. Descargá esa versión, abrí el .dmg y arrastrá Lupino a Aplicaciones. Como esta beta aún no está notarizada, macOS puede pedir que autorices su apertura en Configuración del Sistema → Privacidad y seguridad → Abrir igualmente.</p></details><details><summary>Linux</summary><p>En Ubuntu o Debian, abrí el .deb con el instalador de software. Para AppImage, abrí Propiedades → Permisos, permití ejecutar el archivo y hacé doble clic. Las dependencias del escritorio pueden variar según tu distribución.</p></details></div>
+    </section>
+    <section class="getting-started section" aria-labelledby="start-title"><div class="section-intro"><h2 id="start-title">Tu primer paso<br>es un apunte.</h2><p>Abrí Biblioteca → Importar archivos. Elegí una materia y cargá un documento. Ya podés buscarlo; conectá una IA cuando quieras empezar a preguntar.</p></div><div class="start-links"><a class="button secondary" href="https://github.com/Matias-Sanmiguel/lupino#descargar-y-empezar">Leer las instrucciones <span aria-hidden="true">↗</span></a><a class="small-link download-link" data-asset="Lupino-extension.zip" href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">Descargar extensión de Teams ↗</a></div><p class="muted narrow">La extensión es opcional y se instala desde la configuración del navegador. En Lupino, Ajustes → Teams te guía para vincular tus carpetas. También podés empezar importando archivos directamente.</p></section>
+    <section class="faq section" aria-labelledby="faq-title"><h2 id="faq-title">Antes de empezar.</h2><details><summary>¿Necesito pagar una IA?</summary><p>La biblioteca, la búsqueda y el calendario funcionan sin IA. Para el chat podés conectar ChatGPT, Cursor o una API key de Anthropic. Cada proveedor aplica sus límites y condiciones. Claude usa el Agent SDK oficial; el consumo de API se factura separado de Claude.ai.</p></details><details><summary>¿Dónde quedan mis documentos?</summary><p>La biblioteca queda en tu computadora. Al usar el chat, el proveedor elegido recibe la pregunta, el historial reciente y los fragmentos que consulta. La sesión de Microsoft permanece en el navegador.</p></details><details><summary>¿Google Calendar se actualiza solo?</summary><p>Podés abrir una fecha en Google para revisarla y guardarla, o importar las confirmadas juntas con un archivo .ics. Es una copia puntual: los cambios posteriores no se sincronizan. Las fechas con horario llevan una duración sugerida de una hora, editable en Google.</p></details><details><summary>¿Reconoce cualquier archivo y cualquier fecha?</summary><p>Admite PDF con texto, DOCX, PPTX, TXT y Markdown. Los documentos escaneados necesitan OCR externo. Las fechas detectadas deben revisarse: podés confirmarlas, corregirlas o descartarlas. Los recordatorios necesitan la computadora encendida y Lupino abierto o en la bandeja.</p></details></section>
+  </main>
+  <footer class="footer"><a class="brand" href="#"><svg viewBox="32 24 192 192" aria-hidden="true"><path d="M48 40H104V128L80 152H208V208H48Z"/></svg><span>Lupino</span></a><span>Un poco de orden. Tu propio ritmo.</span><div><a href="https://github.com/Matias-Sanmiguel/lupino">GitHub ↗</a><a href="https://github.com/Matias-Sanmiguel/lupino/blob/main/README.md">README ↗</a><a href="https://github.com/Matias-Sanmiguel/lupino/issues">Ayuda ↗</a></div></footer>
+</body></html>
