@@ -1,13 +1,13 @@
 <p align="center"><img src="public/brand/lupino-symbol-mono-005be7.svg" width="64" alt="Lupino" /></p>
 <h1 align="center">Lupino</h1>
 <p align="center">Tus apuntes, tus preguntas y tus próximas fechas. En un solo lugar.</p>
-<p align="center"><a href="https://lupino-app.pages.dev">Sitio web</a> · <a href="https://github.com/Matias-Sanmiguel/lupino/releases/latest">Descargar</a> · <a href="https://github.com/Matias-Sanmiguel/lupino/issues">Reportar un problema</a></p>
+<p align="center"><a href="https://lupino-app.pages.dev">Sitio web</a> · <a href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">Descargar</a> · <a href="https://github.com/Matias-Sanmiguel/lupino/issues">Reportar un problema</a></p>
 
 Lupino es una app de escritorio para estudiar con el material de tu facultad. Guardá documentos y mensajes, preguntá con referencias al fragmento original y organizá entregas y exámenes. Tu biblioteca queda en tu computadora.
 
 ## Descargar y empezar
 
-No necesitás instalar Rust, Node ni herramientas de desarrollo. Elegí tu sistema en [la página de descargas](https://lupino-app.pages.dev/#descargar) o en [GitHub Releases](https://github.com/Matias-Sanmiguel/lupino/releases/latest).
+No necesitás instalar Rust, Node ni herramientas de desarrollo. Elegí tu sistema en [la página de descargas](https://lupino-app.pages.dev/#descargar) o en [GitHub Releases](https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1).
 
 - **Windows:** descargá el instalador `.exe` y seguí los pasos.
 - **macOS:** elegí Apple Silicon o Intel, abrí el `.dmg` y arrastrá Lupino a Aplicaciones.
