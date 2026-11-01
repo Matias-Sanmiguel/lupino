@@ -16,8 +16,10 @@
     sources,
     events,
     providers,
-    provider = $bindable(),
-    model = $bindable(),
+    provider,
+    model,
+    onprovider,
+    onmodel,
     subject = $bindable(),
     sourceId = $bindable(),
     busy,
@@ -37,6 +39,8 @@
     providers: Provider[];
     provider: string;
     model: string;
+    onprovider: (value: string) => void;
+    onmodel: (value: string) => void;
     subject: string;
     sourceId: string;
     busy: boolean;
@@ -73,6 +77,7 @@
   );
   let subjects = $derived([...new Set(sources.map((s) => s.subject))]);
   let current = $derived(providers.find((p) => p.id === provider));
+  const hasModel = $derived(!!current?.connected && !!model && current.models.includes(model));
   let scopeLabel = $derived(
     sourceId
       ? sources
@@ -229,36 +234,45 @@
               aria-label="Importar material"
               onclick={onimport}><Paperclip size={18} /></button
             >
-            <details class="model-menu" use:disclosure>
-              <summary
-                >{provider === 'chatgpt'
-                  ? 'ChatGPT'
-                  : provider === 'claude'
-                    ? 'Claude'
-                    : 'Cursor'}<ChevronDown size={13} /></summary
+            <span class="composer-select">
+              <select
+                class="provider-select"
+                aria-label="Proveedor de IA"
+                value={provider}
+                disabled={busy}
+                onchange={(event) => onprovider(event.currentTarget.value)}
               >
-              <div class="model-controls">
-                <label
-                  >Asistente<select
-                    aria-label="Proveedor de IA"
-                    disabled={busy}
-                    bind:value={provider}
-                    onchange={() => (model = '')}
-                  >
-                    <option value="chatgpt">ChatGPT</option><option value="claude">Claude</option
-                    ><option value="cursor">Cursor</option>
-                  </select></label
+                <option value="chatgpt">ChatGPT</option><option value="claude">Claude</option
+                ><option value="cursor">Cursor</option>
+              </select><ChevronDown size={12} aria-hidden="true" />
+            </span>
+            <span class="composer-select">
+              <select
+                class="model-select"
+                aria-label="Modelo de IA"
+                title={model || 'Elegí un modelo antes de enviar'}
+                value={hasModel ? model : ''}
+                disabled={busy || !current?.connected || !current.models.length}
+                onchange={(event) => onmodel(event.currentTarget.value)}
+              >
+                <option value="" disabled
+                  >{!current
+                    ? 'Cargando modelos…'
+                    : !current.connected
+                      ? 'Conectá tu cuenta'
+                      : current.models.length
+                        ? 'Elegí modelo'
+                        : 'Sin modelos disponibles'}</option
                 >
-                {#if current?.models.length}<label
-                    >Modelo<select aria-label="Modelo de IA" disabled={busy} bind:value={model}>
-                      <option value="">Predeterminado</option>{#each current.models as m}<option
-                          value={m}>{m}</option
-                        >{/each}
-                    </select></label
-                  >{/if}
-              </div>
-            </details>
-            {#if !current?.connected}<button
+                {#each [...new Set(current?.models ?? [])].sort( (a, b) => a.localeCompare(b) ) as item}<option
+                    value={item}
+                    >{item}{['auto', 'default'].includes(item.toLowerCase())
+                      ? ' · elige el proveedor'
+                      : ''}</option
+                  >{/each}
+              </select><ChevronDown size={12} aria-hidden="true" />
+            </span>
+            {#if current && !current.connected}<button
                 type="button"
                 class="connect-hint"
                 onclick={onconnections}>Conectar</button
@@ -271,7 +285,7 @@
               aria-label="Detener respuesta"><Square size={15} fill="currentColor" /></button
             >{:else}<button
               class="send-button"
-              disabled={!draft.trim()}
+              disabled={!draft.trim() || !hasModel}
               aria-label="Enviar pregunta"><ArrowUp size={20} /></button
             >{/if}
         </div>

@@ -1,6 +1,6 @@
 import { Agent, Cursor, emptyFs, type SDKCustomTool } from '@cursor/sdk';
 import { schemas, descriptions, jsonSchema, type ToolName, type ToolCall } from './tools.js';
-import { makePrompt, type Request } from './protocol.js';
+import { makePrompt, requireModel, type Request } from './protocol.js';
 export async function cursor(
   r: Request,
   call: ToolCall,
@@ -35,9 +35,7 @@ export async function cursor(
       models: (await Cursor.models.list({ apiKey: key })).map((m) => m.id),
     };
   }
-  const models = r.model ? [] : await Cursor.models.list({ apiKey: key });
-  const model = r.model || models[0]?.id;
-  if (!model) throw new Error('Cursor no devolvió modelos disponibles para tu cuenta.');
+  const model = requireModel(r);
   const customTools: Record<string, SDKCustomTool> = Object.fromEntries(
     (Object.keys(schemas) as ToolName[]).map((name) => [
       name,

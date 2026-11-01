@@ -1,13 +1,13 @@
 <p align="center"><img src="public/brand/lupino-symbol-mono-005be7.svg" width="64" alt="Lupino" /></p>
 <h1 align="center">Lupino</h1>
 <p align="center">Tus apuntes, tus preguntas y tus próximas fechas. En un solo lugar.</p>
-<p align="center"><a href="https://lupino-app.pages.dev">Sitio web</a> · <a href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.2">Descargar</a> · <a href="https://github.com/Matias-Sanmiguel/lupino/issues">Reportar un problema</a></p>
+<p align="center"><a href="https://lupino-app.pages.dev">Sitio web</a> · <a href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.3">Descargar</a> · <a href="https://github.com/Matias-Sanmiguel/lupino/issues">Reportar un problema</a></p>
 
 Lupino es una app de escritorio para estudiar con el material de tu facultad. Guardá documentos y mensajes, preguntá con referencias al fragmento original y organizá entregas y exámenes. Tu biblioteca queda en tu computadora.
 
 ## Descargar y empezar
 
-No necesitás instalar Rust, Node ni herramientas de desarrollo. Elegí tu sistema en [la página de descargas](https://lupino-app.pages.dev/#descargar) o en [GitHub Releases](https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.2).
+No necesitás instalar Rust, Node ni herramientas de desarrollo. Elegí tu sistema en [la página de descargas](https://lupino-app.pages.dev/#descargar) o en [GitHub Releases](https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.3).
 
 - **Windows:** descargá el instalador `.exe` y seguí los pasos.
 - **macOS:** elegí Apple Silicon o Intel, abrí el `.dmg` y arrastrá Lupino a Aplicaciones.
@@ -42,6 +42,8 @@ La extensión es externa a Teams. La sesión de Microsoft permanece en el navega
 | ChatGPT | Inicio de sesión mediante el runtime oficial de Codex; modelos y límites según tu cuenta. |
 | Claude | Agent SDK oficial de Anthropic. Requiere API key; el consumo de API se factura separado de Claude.ai. |
 | Cursor | SDK e inicio de sesión oficiales; disponibilidad según tu cuenta. |
+
+En el chat elegís el proveedor y un modelo de los que ofrece tu cuenta. Lupino recuerda la elección de cada proveedor y requiere elegir uno antes de enviar; no usa un modelo predeterminado ni sustituye tu selección. El precio y los límites dependen de tu cuenta.
 
 Lupino envía al proveedor elegido tu pregunta, el historial reciente y los fragmentos que consulta. No cambia de proveedor automáticamente. Las claves usan el almacén seguro del sistema; si no está disponible, las claves de Claude/Cursor quedan sólo en memoria durante esa sesión.
 

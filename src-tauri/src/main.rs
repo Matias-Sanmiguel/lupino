@@ -253,6 +253,9 @@ fn chat_start(
     if uuid::Uuid::parse_str(&run_id).is_err() || prompt.trim().is_empty() || prompt.len() > 50000 {
         return Err("Consulta inválida o demasiado larga".into());
     }
+    let model = model.map(|value| value.trim().to_owned())
+        .filter(|value| !value.is_empty() && value.len() <= 200)
+        .ok_or_else(|| "Elegí un modelo antes de enviar la consulta.".to_string())?;
     let state = app.state::<AppState>();
     let store = state.store().map_err(err)?;
     if !["chatgpt", "claude", "cursor"].contains(&provider.as_str()) {

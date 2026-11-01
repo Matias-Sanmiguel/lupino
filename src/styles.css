@@ -33,12 +33,14 @@
   --sidebar: 180px;
   --action: #292d30;
   --on-action: #ffffff;
+  --pattern-opacity: 0.9;
   --action-hover: #006399;
   color: var(--ink);
   background: var(--paper);
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
+  --pattern-opacity: 0.25;
   --action: #f3f1eb;
   --on-action: #292d30;
   --action-hover: #cbd8d6;
@@ -66,6 +68,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']):not([data-theme='dark']) {
     color-scheme: dark;
+    --pattern-opacity: 0.25;
     --action: #f3f1eb;
     --on-action: #292d30;
     --action-hover: #cbd8d6;
@@ -1688,7 +1691,39 @@ label {
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.5;
+  opacity: var(--pattern-opacity);
+}
+.composer-select {
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+}
+.composer-select > svg {
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--ink);
+}
+.composer-options .provider-select,
+.composer-options .model-select {
+  background: var(--soft);
+  border: 0;
+  border-radius: 999px;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+  padding: 6px 26px 6px 12px;
+  font-size: 12px;
+  text-overflow: ellipsis;
+}
+.composer-options .provider-select {
+  max-width: 105px;
+}
+.composer-options .model-select {
+  width: 180px;
+  max-width: 180px;
 }
 .chat-upcoming {
   width: min(100%, 620px);

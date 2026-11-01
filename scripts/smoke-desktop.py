@@ -49,8 +49,8 @@ wait("return !document.querySelector('.modal') && [...document.querySelectorAll(
 screenshot('native-calendar')
 click('Nuevo chat');wait("return !!document.querySelector('.composer')")
 fill('textarea[aria-label="Tu pregunta"]','¿Qué temas entran en el parcial?')
-js('document.querySelector(\'button[aria-label="Enviar pregunta"]\').click()')
-error=wait("return document.querySelector('.error-message')?.textContent",45)
-assert 'Conectá tu cuenta' in error or 'iniciar' in error,error
+assert js('return document.querySelector(\'button[aria-label="Enviar pregunta"]\').disabled')
+assert js('return document.querySelector(\'select[aria-label="Modelo de IA"]\').disabled')
+click('Conectar');wait("return !!document.querySelector('.connections-page')")
 screenshot('native-chat-disconnected')
-print('PASS: native UI import → Rust/SQLite → search → source → date correction → disconnected account error.')
+print('PASS: native UI import → Rust/SQLite → search → source → date correction → explicit account/model gate.')

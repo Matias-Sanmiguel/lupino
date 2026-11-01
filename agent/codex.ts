@@ -2,7 +2,7 @@ import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import { createInterface } from 'node:readline';
 import { EventEmitter } from 'node:events';
 import { mkdir } from 'node:fs/promises';
-import { INSTRUCTIONS, makePrompt, type Request } from './protocol.js';
+import { INSTRUCTIONS, makePrompt, requireModel, type Request } from './protocol.js';
 import { schemas, descriptions, jsonSchema, type ToolName, type ToolCall } from './tools.js';
 
 export class Rpc extends EventEmitter {
@@ -202,7 +202,7 @@ export async function codex(
     });
     void completed.catch(() => {});
     const thread = await rpc.request('thread/start', {
-      model: r.model || undefined,
+      model: requireModel(r),
       cwd: process.env.LUPINO_AGENT_WORKSPACE,
       ephemeral: true,
       approvalPolicy: 'untrusted',

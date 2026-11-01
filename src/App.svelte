@@ -20,6 +20,7 @@
   import ConnectionsView from './components/ConnectionsView.svelte';
   import SourcePanel from './components/SourcePanel.svelte';
   import { command, isDesktop, errorText } from './lib/api';
+  import { storedProvider, storedModel, rememberSelection } from './lib/model-selection';
   import type {
     Snapshot,
     Provider,
@@ -52,8 +53,18 @@
   let streaming = $state('');
   let progress = $state('');
   let draft = $state('');
-  let provider = $state('chatgpt');
-  let model = $state('');
+  const initialProvider = storedProvider();
+  let provider = $state(initialProvider);
+  let model = $state(storedModel(initialProvider));
+  function selectProvider(value: string) {
+    provider = value;
+    model = storedModel(value);
+    rememberSelection(provider, model);
+  }
+  function selectModel(value: string) {
+    model = value;
+    rememberSelection(provider, model);
+  }
   let subject = $state('');
   let sourceId = $state('');
   let toast = $state('');
@@ -131,6 +142,16 @@
   }
   async function send() {
     if (activeRun || !draft.trim()) return;
+    const account = providers.find((p) => p.id === provider);
+    if (!account?.connected || !model || !account.models.includes(model)) {
+      notify(
+        account?.connected
+          ? 'Elegí un modelo disponible antes de enviar.'
+          : 'Conectá tu cuenta y elegí un modelo antes de enviar.',
+        true,
+      );
+      return;
+    }
     const prompt = draft;
     draft = '';
     streaming = '';
@@ -154,7 +175,7 @@
         conversationId,
         prompt,
         provider,
-        model: model || null,
+        model,
         subject: subject || null,
         sourceId: sourceId || null,
       });
@@ -358,8 +379,10 @@
         events={data.events}
         oncalendar={() => (view = 'calendar')}
         {providers}
-        bind:provider
-        bind:model
+        {provider}
+        {model}
+        onprovider={selectProvider}
+        onmodel={selectModel}
         bind:subject
         bind:sourceId
         bind:draft

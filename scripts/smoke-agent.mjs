@@ -61,14 +61,23 @@ try {
     action: 'chat',
     provider: 'claude',
     prompt: 'No llamar al modelo',
+    model: 'unavailable-test-model',
   });
   assert.ok(claude.some((e) => e.type === 'error' && e.message.includes('API key')));
   console.log('claude: rechaza consulta sin clave, sin consumo');
   assert.ok((await request('invalid-json')).some((e) => e.type === 'error'));
   assert.ok(
-    (await request({ action: 'chat', provider: 'chatgpt', prompt: 'cancelar' }, true)).some(
-      (e) => e.type === 'error' && e.message.includes('cancelada'),
-    ),
+    (
+      await request(
+        {
+          action: 'chat',
+          provider: 'chatgpt',
+          prompt: 'cancelar',
+          model: 'unavailable-test-model',
+        },
+        true,
+      )
+    ).some((e) => e.type === 'error' && e.message.includes('cancelada')),
   );
   console.log('JSON inválido y cancelación: sin éxito falso.');
 } finally {

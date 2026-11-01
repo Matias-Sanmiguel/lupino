@@ -1,6 +1,6 @@
 import { query, tool, createSdkMcpServer } from '@anthropic-ai/claude-agent-sdk';
 import { schemas, descriptions, type ToolName, type ToolCall } from './tools.js';
-import { INSTRUCTIONS, makePrompt, type Request } from './protocol.js';
+import { INSTRUCTIONS, makePrompt, requireModel, type Request } from './protocol.js';
 export async function claude(
   r: Request,
   call: ToolCall,
@@ -8,9 +8,9 @@ export async function claude(
   abort: AbortController,
 ) {
   if (!process.env.ANTHROPIC_API_KEY)
-    throw new Error('Agregá tu API key de Anthropic en Conexiones.');
+    throw new Error('Agregá tu API key de Anthropic en Ajustes.');
   if (r.action !== 'chat') {
-    const response = await fetch('https://api.anthropic.com/v1/models', {
+    const response = await fetch('https://api.anthropic.com/v1/models?limit=1000', {
       headers: { 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
       signal: abort.signal,
     });
@@ -38,7 +38,7 @@ export async function claude(
   const run = query({
     prompt: makePrompt(r),
     options: {
-      model: r.model || 'sonnet',
+      model: requireModel(r),
       cwd: process.env.LUPINO_AGENT_WORKSPACE,
       systemPrompt: INSTRUCTIONS,
       tools: [],
