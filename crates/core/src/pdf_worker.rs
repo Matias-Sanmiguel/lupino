@@ -34,6 +34,8 @@ pub fn parse(bytes: &[u8]) -> Result<Vec<(String, String)>> {
         unsafe {
             command.pre_exec(|| {
                 for (resource, limit) in [
+                    // Darwin rejects RLIMIT_AS. Its worker is monitored by RSS below.
+                    #[cfg(not(target_os = "macos"))]
                     (libc::RLIMIT_AS, MEMORY_LIMIT as libc::rlim_t),
                     (libc::RLIMIT_CPU, 10),
                     (libc::RLIMIT_CORE, 0),
@@ -83,7 +85,21 @@ pub fn parse(bytes: &[u8]) -> Result<Vec<(String, String)>> {
         let _ = sender.send(result);
     });
     let start = Instant::now();
-    let response = receiver.recv_timeout(DEADLINE);
+    let response = (|| -> Result<std::io::Result<Vec<u8>>> {
+        loop {
+            match receiver.recv_timeout(Duration::from_millis(20)) {
+                Ok(output) => return Ok(output),
+                Err(mpsc::RecvTimeoutError::Disconnected) => bail!("El lector de PDF se cerró sin resultado"),
+                Err(mpsc::RecvTimeoutError::Timeout) => {
+                    if start.elapsed() >= DEADLINE { bail!("El PDF superó el tiempo máximo de lectura"); }
+                    #[cfg(target_os = "macos")]
+                    if resident_memory(child.id()).is_some_and(|bytes| bytes > MEMORY_LIMIT as u64) {
+                        bail!("El PDF superó el límite de memoria");
+                    }
+                }
+            }
+        }
+    })();
     let result = (|| -> Result<Vec<(String, String)>> {
         let output = response.context("El PDF superó el tiempo máximo de lectura")??;
         if output.len() > MAX_TEXT * 2 {
@@ -119,6 +135,14 @@ pub fn parse(bytes: &[u8]) -> Result<Vec<(String, String)>> {
     let _ = writer.join();
     let _ = reader.join();
     result
+}
+
+#[cfg(target_os = "macos")]
+fn resident_memory(pid: u32) -> Option<u64> {
+    let mut info: libc::proc_taskinfo = unsafe { std::mem::zeroed() };
+    let size = std::mem::size_of_val(&info) as libc::c_int;
+    let read = unsafe { libc::proc_pidinfo(pid as libc::c_int, libc::PROC_PIDTASKINFO, 0, (&mut info as *mut libc::proc_taskinfo).cast(), size) };
+    (read == size).then_some(info.pti_resident_size)
 }
 
 /// Called before any GUI/runtime initialization, with inherited OS resource limits.

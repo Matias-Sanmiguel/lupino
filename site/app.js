@@ -36,13 +36,13 @@ async function loadDownloads() {
     const response = await fetch('https://api.github.com/repos/Matias-Sanmiguel/lupino/releases/tags/v0.1.1', { signal: AbortSignal.timeout(10000) });
     if (!response.ok) throw Error('Release unavailable');
     const release = await response.json();
-    let ready = 0;
+    let readyInstallers = 0;
     for (const link of document.querySelectorAll('[data-asset]')) {
       const asset = release.assets.find(a => a.name === link.dataset.asset);
-      if (asset) { link.href = asset.browser_download_url; link.title = `${asset.name} · ${(asset.size / 1048576).toFixed(0)} MB`; ready++; }
+      if (asset) { link.href = asset.browser_download_url; link.title = `${asset.name} · ${(asset.size / 1048576).toFixed(0)} MB`; if (!link.dataset.asset.endsWith('.zip')) readyInstallers++; }
       else { link.title = 'Consultá el estado de esta compilación en GitHub Releases'; }
     }
-    if (ready < 5) document.querySelector('#release-status').innerHTML = 'Algunos instaladores todavía se están compilando. Podés ver los archivos disponibles y el progreso en <a href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">GitHub Releases</a>.';
+    if (readyInstallers < 5) document.querySelector('#release-status').innerHTML = 'Algunos instaladores todavía se están compilando. Podés ver los archivos disponibles y el progreso en <a href="https://github.com/Matias-Sanmiguel/lupino/releases/tag/v0.1.1">GitHub Releases</a>.';
   } catch { /* All links already lead to the real release page; no broken download claims. */ }
 }
 loadDownloads();
