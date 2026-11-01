@@ -311,7 +311,7 @@
       onclick={newChat}
       aria-label="Lupino, nuevo chat"
       title="Lupino — nuevo chat"
-      ><svg width="44" height="44" viewBox="32 24 192 192" fill="currentColor" aria-hidden="true"
+      ><svg width="24" height="24" viewBox="32 24 192 192" fill="currentColor" aria-hidden="true"
         ><path d="M48 40H104V128L80 152H208V208H48Z" /></svg
       ></button
     ><button class="new-chat" onclick={newChat}><Plus size={16} />Nuevo chat</button>
@@ -355,6 +355,8 @@
     {#if view === 'chat'}<ChatView
         {messages}
         sources={data.sources}
+        events={data.events}
+        oncalendar={() => (view = 'calendar')}
         {providers}
         bind:provider
         bind:model

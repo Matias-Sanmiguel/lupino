@@ -1,5 +1,6 @@
 <script lang="ts">
   import { disclosure } from '../lib/disclosure';
+  import Resonance from './Resonance.svelte';
   import {
     ArrowUp,
     Square,
@@ -9,10 +10,11 @@
     Quote,
     CircleAlert,
   } from 'lucide-svelte';
-  import type { ChatMessage, Evidence, Provider, Source } from '../lib/types';
+  import type { ChatMessage, Evidence, Provider, Source, StudyEvent } from '../lib/types';
   let {
     messages,
     sources,
+    events,
     providers,
     provider = $bindable(),
     model = $bindable(),
@@ -27,9 +29,11 @@
     onimport,
     onevidence,
     onconnections,
+    oncalendar,
   }: {
     messages: ChatMessage[];
     sources: Source[];
+    events: StudyEvent[];
     providers: Provider[];
     provider: string;
     model: string;
@@ -44,9 +48,29 @@
     onimport: () => void;
     onevidence: (e: Evidence) => void;
     onconnections: () => void;
+    oncalendar: () => void;
   } = $props();
   let viewport: HTMLDivElement;
-  const suggestions = ['¿Qué temas entran en el parcial?', '¿Qué entregas tengo pendientes?'];
+  let textarea: HTMLTextAreaElement;
+  $effect(() => {
+    draft;
+    queueMicrotask(() => {
+      if (!textarea) return;
+      textarea.style.height = 'auto';
+      textarea.style.height = `${Math.min(160, Math.max(44, textarea.scrollHeight))}px`;
+    });
+  });
+  const suggestions = [
+    { label: 'Preparar un parcial', prompt: '¿Qué temas entran en el parcial?' },
+    { label: 'Revisar entregas', prompt: '¿Qué entregas tengo pendientes?' },
+  ];
+  const today = new Date().toLocaleDateString('en-CA');
+  const upcoming = $derived(
+    events
+      .filter((e) => e.status === 'confirmed' && e.date >= today)
+      .sort((a, b) => `${a.date}${a.time || ''}`.localeCompare(`${b.date}${b.time || ''}`))
+      .slice(0, 2),
+  );
   let subjects = $derived([...new Set(sources.map((s) => s.subject))]);
   let current = $derived(providers.find((p) => p.id === provider));
   let scopeLabel = $derived(
@@ -102,6 +126,7 @@
     </details>
   </header>
   <div class="chat-body" class:empty={!messages.length && !busy}>
+    {#if !messages.length && !busy}<Resonance />{/if}
     <div
       class="conversation-scroll"
       bind:this={viewport}
@@ -110,12 +135,12 @@
     >
       {#if !messages.length && !busy}
         <div class="chat-welcome">
-          <h2>¿Qué querés saber?</h2>
-          <p>Buscá respuestas en tus apuntes y mensajes de Teams.</p>
+          <h2>¿Qué estás preparando?</h2>
+          <p>Buscá en tus apuntes o revisá lo que viene.</p>
           {#if sources.length}
             <div class="suggestions">
               {#each suggestions as suggestion}
-                <button onclick={() => (draft = suggestion)}>{suggestion}</button>
+                <button onclick={() => (draft = suggestion.prompt)}>{suggestion.label}</button>
               {/each}
             </div>
           {:else}
@@ -182,12 +207,13 @@
         }}
       >
         <textarea
+          bind:this={textarea}
           aria-label="Tu pregunta"
           placeholder={sources.length
             ? 'Preguntá sobre tus materias…'
             : '¿Qué querés saber de tus apuntes?'}
           bind:value={draft}
-          rows="2"
+          rows="1"
           onkeydown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
               e.preventDefault();
@@ -251,5 +277,21 @@
         </div>
       </form>
     </div>
+    {#if !messages.length && !busy && upcoming.length}
+      <section class="chat-upcoming" aria-label="Próximas fechas">
+        <div class="upcoming-heading">
+          <h3>Lo próximo</h3>
+          <button class="text-button" onclick={oncalendar}>Ver calendario</button>
+        </div>
+        {#each upcoming as event}<button class="upcoming-row" onclick={oncalendar}
+            ><span class="upcoming-date"
+              >{new Date(`${event.date}T12:00:00`).toLocaleDateString('es-AR', {
+                day: '2-digit',
+                month: 'short',
+              })}</span
+            ><span><strong>{event.title}</strong><small>{event.subject}</small></span></button
+          >{/each}
+      </section>
+    {/if}
   </div>
 </section>
